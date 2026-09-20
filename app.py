@@ -9,163 +9,99 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Interaktiv 3D HTML5 Canvas Zarralar va Obyektlar Harakati
+# 2. 100% Ishlaydigan Sof CSS3 Murakkab Animatsiya va Shisha (Glassmorphism) Dizayn
 st.markdown("""
-    <canvas id="bgCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none;"></canvas>
-    
-    <script>
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    const particles = [];
-    const numParticles = 65;
-    const symbols = ['⚖️', '📜', '🛡️', '🏛️'];
-
-    for (let i = 0; i < numParticles; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 1.6,
-            vy: (Math.random() - 0.5) * 1.6,
-            radius: Math.random() * 3 + 1.5,
-            symbol: Math.random() < 0.2 ? symbols[Math.floor(Math.random() * symbols.length)] : null,
-            size: Math.random() * 22 + 16,
-            color: `hsl(${Math.random() * 80 + 220}, 90%, 65%)`,
-            pulse: Math.random() * Math.PI
-        });
-    }
-
-    let mouse = { x: null, y: null };
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        let gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#060814');
-        gradient.addColorStop(0.5, '#0d1329');
-        gradient.addColorStop(1, '#050611');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        for (let i = 0; i < particles.length; i++) {
-            let p = particles[i];
-
-            p.x += p.vx;
-            p.y += p.vy;
-
-            if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-            p.pulse += 0.03;
-
-            if (p.symbol) {
-                ctx.font = `${p.size}px Arial`;
-                ctx.globalAlpha = 0.75 + Math.sin(p.pulse) * 0.25;
-                ctx.fillText(p.symbol, p.x, p.y);
-                ctx.globalAlpha = 1.0;
-            } else {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius + Math.sin(p.pulse) * 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = p.color;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = p.color;
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-
-            for (let j = i + 1; j < particles.length; j++) {
-                let p2 = particles[j];
-                let dx = p.x - p2.x;
-                let dy = p.y - p2.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < 140) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.strokeStyle = `rgba(139, 92, 246, ${1 - dist / 140})`;
-                    ctx.lineWidth = 0.9;
-                    ctx.stroke();
-                }
-            }
-
-            if (mouse.x && mouse.y) {
-                let mdx = p.x - mouse.x;
-                let mdy = p.y - mouse.y;
-                let mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-                if (mdist < 190) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(mouse.x, mouse.y);
-                    ctx.strokeStyle = `rgba(236, 72, 153, ${1 - mdist / 190})`;
-                    ctx.lineWidth = 1.4;
-                    ctx.stroke();
-                }
-            }
-        }
-
-        requestAnimationFrame(animate);
-    }
-    animate();
-    </script>
-
     <style>
-    /* Streamlit interfeysini shaffoflashtirish va uslub berish */
+    /* Gradient va Rang-barang Suyuq Harakat Animatsiyasi */
+    @keyframes liquidAurora {
+        0% {
+            background-position: 0% 50%;
+            filter: hue-rotate(0deg) contrast(120%);
+        }
+        25% {
+            background-position: 100% 0%;
+            filter: hue-rotate(90deg) contrast(110%);
+        }
+        50% {
+            background-position: 100% 100%;
+            filter: hue-rotate(180deg) contrast(130%);
+        }
+        75% {
+            background-position: 0% 100%;
+            filter: hue-rotate(270deg) contrast(110%);
+        }
+        100% {
+            background-position: 0% 50%;
+            filter: hue-rotate(360deg) contrast(120%);
+        }
+    }
+
+    /* Suzuvchi Nurli Halqalar Animatsiyasi */
+    @keyframes floatingGlow {
+        0% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+        33% { transform: translate(30px, -50px) scale(1.1) rotate(120deg); }
+        66% { transform: translate(-20px, 40px) scale(0.9) rotate(240deg); }
+        100% { transform: translate(0px, 0px) scale(1) rotate(360deg); }
+    }
+
+    /* Asosiy Fon */
     .stApp {
-        background: transparent !important;
+        background: 
+            radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.7) 0%, transparent 40%),
+            radial-gradient(circle at 80% 30%, rgba(236, 72, 153, 0.7) 0%, transparent 45%),
+            radial-gradient(circle at 50% 80%, rgba(6, 182, 212, 0.7) 0%, transparent 40%),
+            radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.7) 0%, transparent 45%),
+            linear-gradient(135deg, #070913 0%, #0c1023 50%, #05060d 100%);
+        background-size: 200% 200%;
+        animation: liquidAurora 12s ease-in-out infinite alternate;
+        background-attachment: fixed;
     }
 
+    /* Yon Panel (Sidebar) Uslubi */
     [data-testid="stSidebar"] {
-        background: rgba(8, 12, 28, 0.75) !important;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(10, 15, 30, 0.75) !important;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
     }
 
+    /* Konteynerlar (Bloklar) - Ultra-Shisha va Neon Yoritish Effekti */
     div[data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(13, 19, 41, 0.65) !important;
-        backdrop-filter: blur(18px) !important;
-        -webkit-backdrop-filter: blur(18px) !important;
-        border: 1px solid rgba(139, 92, 246, 0.35) !important;
-        border-radius: 22px !important;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-        transition: all 0.4s ease-in-out !important;
+        background: rgba(15, 23, 42, 0.55) !important;
+        backdrop-filter: blur(16px) saturate(190%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(190%) !important;
+        border: 1px solid rgba(168, 85, 247, 0.4) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(168, 85, 247, 0.15) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     }
 
+    /* Sichqoncha olib kelinganda bloklarning yonishi va ko'tarilishi */
     div[data-testid="stVerticalBlockBorderWrapper"]:hover {
-        border-color: rgba(236, 72, 153, 0.85) !important;
-        box-shadow: 0 0 35px rgba(236, 72, 153, 0.5) !important;
-        transform: translateY(-5px);
+        border-color: rgba(236, 72, 153, 0.9) !important;
+        box-shadow: 0 0 30px rgba(236, 72, 153, 0.6), inset 0 0 20px rgba(236, 72, 153, 0.2) !important;
+        transform: translateY(-6px) scale(1.01);
     }
 
+    /* Matnlar va Sarlavhalar */
     h1, h2, h3, h4, label, span, p {
         color: #FFFFFF !important;
-        text-shadow: 0 2px 5px rgba(0,0,0,0.7);
+        text-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
 
+    /* Tugmalar Dizayni */
     .stButton>button, .stDownloadButton>button {
-        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%) !important;
+        background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%) !important;
         color: white !important;
         font-weight: bold !important;
         border-radius: 14px !important;
         border: none !important;
-        box-shadow: 0 5px 20px rgba(219, 39, 119, 0.4) !important;
+        box-shadow: 0 4px 20px rgba(236, 72, 153, 0.5) !important;
         transition: all 0.3s ease !important;
     }
     .stButton>button:hover, .stDownloadButton>button:hover {
-        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.85) !important;
-        transform: scale(1.03);
+        box-shadow: 0 6px 30px rgba(139, 92, 246, 0.9) !important;
+        transform: translateY(-2px) scale(1.02);
     }
     </style>
 """, unsafe_allow_html=True)
