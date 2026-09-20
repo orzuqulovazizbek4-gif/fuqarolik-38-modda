@@ -8,24 +8,87 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-import streamlit as st
 
+# 2. Murakkab va rang-barang CSS animatsiyasi + Shaffof shisha (Glassmorphism) dizayni
 st.markdown("""
     <style>
-    @keyframes gradientAnimation {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+    /* Aurora Mesh rang-barang harakatlanuvchi fon animatsiyasi */
+    @keyframes auroraMesh {
+        0% {
+            background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0%;
+            filter: hue-rotate(0deg);
+        }
+        50% {
+            background-position: 100% 100%, 0% 0%, 100% 0%, 0% 100%;
+            filter: hue-rotate(180deg);
+        }
+        100% {
+            background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0%;
+            filter: hue-rotate(360deg);
+        }
     }
 
     .stApp {
-        background: linear-gradient(-45deg, #0f172a, #1e3a8a, #1e293b, #0f172a);
-        background-size: 400% 400%;
-        animation: gradientAnimation 12s ease infinite;
+        background: 
+            radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.6) 0%, transparent 40%),
+            radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.6) 0%, transparent 40%),
+            radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.6) 0%, transparent 40%),
+            radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.6) 0%, transparent 40%),
+            linear-gradient(135deg, #090D16 0%, #05050F 100%);
+        background-size: 200% 200%;
+        animation: auroraMesh 15s ease-in-out infinite alternate;
+        background-attachment: fixed;
+    }
+
+    /* Yon panelni shaffoflashtirish */
+    [data-testid="stSidebar"] {
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(16px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Konteynerlarga Shaffof Shisha va Neon Nur effekti */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+        transition: all 0.4s ease-in-out !important;
+    }
+
+    /* Sichqoncha olib kelinganda yonish effekti */
+    div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+        border-color: rgba(168, 85, 247, 0.8) !important;
+        box-shadow: 0 0 25px rgba(168, 85, 247, 0.5) !important;
+        transform: translateY(-3px);
+    }
+
+    /* Sarlavha va matnlar ko'rinishini yaxshilash */
+    h1, h2, h3, h4, label, span, p {
+        color: #FFFFFF !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    /* Tugmalarga neon dizayn */
+    .stButton>button, .stDownloadButton>button {
+        background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%) !important;
+        color: white !important;
+        font-weight: bold !important;
+        border-radius: 12px !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4) !important;
+        transition: all 0.3s ease !important;
+    }
+    .stButton>button:hover, .stDownloadButton>button:hover {
+        box-shadow: 0 6px 25px rgba(139, 92, 246, 0.8) !important;
+        transform: scale(1.02);
     }
     </style>
 """, unsafe_allow_html=True)
-# 2. Yon panel (Sidebar)
+
+# 3. Yon panel (Sidebar)
 with st.sidebar:
     st.title("⚖️ LexiDraft Portal")
     st.info(
@@ -36,12 +99,12 @@ with st.sidebar:
     st.divider()
     st.caption("Avtomatlashtirilgan huquqiy tahlil tizimi")
 
-# 3. Asosiy sarlavha
+# 4. Asosiy sarlavha
 st.title("⚖️ Fuqarolik Iltimosnomasi Hujjatlar Portali")
 st.caption("Oʻzbekiston Respublikasi Fuqarolik toʻgʻrisidagi Qonunining 38-moddasi asosida avtomatlashtirilgan tekshirish")
 st.divider()
 
-# 4. Ikki ustunli struktura
+# 5. Ikki ustunli struktura
 col1, col2 = st.columns([1.2, 0.8], gap="large")
 
 with col1:
