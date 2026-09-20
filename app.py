@@ -1,20 +1,4 @@
 import streamlit as st
-
-st.markdown("""
-    <style>
-    @keyframes gradientAnimation {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    .stApp {
-        background: linear-gradient(-45deg, #0f172a, #1e3a8a, #1e293b, #0f172a);
-        background-size: 400% 400%;
-        animation: gradientAnimation 12s ease infinite;
-    }
-    </style>
-""", unsafe_allow_html=True)import streamlit as st
 import datetime
 
 # 1. Sahifa sozlamalari
