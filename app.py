@@ -9,153 +9,134 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. SOF CSS3 Pasportlar Animatsiyasi va Premium Tilla-Shisha (Gold-Glass) Dizayn
+# 2. "Oltin Gologramma" - Hukumat Darajasidagi Premium CSS Dizayn (Sof CSS3)
 st.markdown("""
     <style>
-    /* 1. Asosiy Fon Gradienti - Chuqur va Rasmiy */
+    /* 1. Asosiy Fon - Rasmiy va Chuqur (Deep Dark Blue/Black) */
     .stApp {
-        background: linear-gradient(-45deg, #050a15, #0f172a, #061122, #020617);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-    }
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+        background: radial-gradient(circle at 50% 50%, #0d1425 0%, #04070d 100%) !important;
+        background-attachment: fixed;
+        overflow-x: hidden;
     }
 
-    /* 2. Passport Animatsiyasi Konteyneri (Orqa fon) */
-    .passport-area {
+    /* 2. Gologrammalar Konteyneri */
+    .hologram-container {
         position: fixed;
         top: 0; left: 0;
         width: 100vw; height: 100vh;
+        z-index: 0;
+        pointer-events: none; /* Kursorga xalaqit bermaydi */
         overflow: hidden;
-        z-index: 0; 
-        pointer-events: none; /* Sichqoncha halaqit bermasligi uchun */
     }
 
-    /* 3. Pasportlarning Mukammal 3D Dizayni */
-    .pass-item {
+    /* 3. Gologramma elementlarining umumiy uslubi */
+    .holo-symbol {
         position: absolute;
-        width: 65px; height: 95px;
-        background: linear-gradient(135deg, #0a3622, #115c3a); /* O'zbekiston pasporti yashil rangi */
-        border-radius: 6px;
-        border: 1px solid #d4af37; /* Tilla rang hoshiya */
-        box-shadow: 4px 8px 20px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.3);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-    }
-    .pass-item::before {
-        content: '🇺🇿'; /* Pasport belgisi */
-        font-size: 28px;
-        margin-bottom: 5px;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-    }
-    .pass-item::after {
-        content: 'PASPORT';
-        font-size: 8px;
-        color: #d4af37;
-        font-weight: bold;
-        font-family: 'Arial', sans-serif;
-        letter-spacing: 1px;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        font-family: "Times New Roman", Times, serif;
+        /* Emojilarni tilla rangli gologrammaga aylantirish uchun maxsus filtr */
+        filter: grayscale(100%) sepia(100%) hue-rotate(10deg) saturate(500%) brightness(1.2) opacity(0.08);
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3);
+        animation: rotateHolo linear infinite, flickerHolo 5s infinite alternate;
     }
 
-    /* 4. Pasportlarning turli uchish traektoriyalari */
-    @keyframes flyUp1 {
-        0% { transform: translateY(110vh) translateX(0px) rotate(-25deg) scale(0.8); opacity: 0; }
-        10% { opacity: 0.65; } 90% { opacity: 0.65; }
-        100% { transform: translateY(-20vh) translateX(200px) rotate(45deg) scale(1.2); opacity: 0; }
+    /* O'lchamlari va joylashuvi */
+    .holo-scales { /* Tarozi */
+        font-size: 70vh;
+        top: -10%; left: -15%;
+        animation-duration: 90s;
     }
-    @keyframes flyUp2 {
-        0% { transform: translateY(110vh) translateX(0px) rotate(35deg) scale(1.1); opacity: 0; }
-        10% { opacity: 0.5; } 90% { opacity: 0.5; }
-        100% { transform: translateY(-20vh) translateX(-150px) rotate(-30deg) scale(0.7); opacity: 0; }
-    }
-    @keyframes flyUp3 {
-        0% { transform: translateY(110vh) translateX(0px) rotate(0deg) scale(0.9); opacity: 0; }
-        10% { opacity: 0.7; } 90% { opacity: 0.7; }
-        100% { transform: translateY(-20vh) translateX(80px) rotate(90deg) scale(1); opacity: 0; }
+    
+    .holo-building { /* Bino/Sud */
+        font-size: 80vh;
+        bottom: -20%; right: -10%;
+        animation-duration: 120s;
+        animation-direction: reverse;
+        filter: grayscale(100%) sepia(100%) hue-rotate(10deg) saturate(500%) brightness(1.2) opacity(0.05);
     }
 
-    /* 5. Har bir pasport uchun alohida joylashuv, tezlik va vaqt */
-    .p1 { left: 10%; animation: flyUp1 14s linear infinite; }
-    .p2 { left: 25%; animation: flyUp2 17s linear infinite; animation-delay: 2s; }
-    .p3 { left: 40%; animation: flyUp3 20s linear infinite; animation-delay: 5s; }
-    .p4 { left: 60%; animation: flyUp1 15s linear infinite; animation-delay: 1s; }
-    .p5 { left: 75%; animation: flyUp2 18s linear infinite; animation-delay: 7s; }
-    .p6 { left: 90%; animation: flyUp3 14s linear infinite; animation-delay: 3s; }
-    .p7 { left: 5%;  animation: flyUp2 22s linear infinite; animation-delay: 9s; }
-    .p8 { left: 50%; animation: flyUp1 16s linear infinite; animation-delay: 11s; }
-    .p9 { left: 85%; animation: flyUp3 19s linear infinite; animation-delay: 13s; }
-    .p10 { left: 35%; animation: flyUp2 15s linear infinite; animation-delay: 16s; }
-    .p11 { left: 15%; animation: flyUp1 21s linear infinite; animation-delay: 8s; }
-    .p12 { left: 65%; animation: flyUp3 17s linear infinite; animation-delay: 4s; }
+    .holo-paragraph { /* Paragraf belgisi */
+        font-size: 100vh;
+        top: 10%; left: 35%;
+        color: #d4af37; /* Sof tilla rang */
+        filter: opacity(0.03); /* Emojimasligi uchun oddiy xiralashtirish */
+        animation-duration: 150s;
+    }
 
-    /* --- UI KONTEYNERLAR UCHUN PREMIUM DIZAYN --- */
+    /* 4. Gologramma Harakatlari (Aylanish va Miltillash) */
+    @keyframes rotateHolo {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.05); }
+        100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes flickerHolo {
+        0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 0.08; text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+        20%, 24%, 55% { opacity: 0.02; text-shadow: none; }
+    }
+
+    /* --- PREMIUM SHISHA (GLASSMORPHISM) INTERFEYS --- */
+    
+    /* Yon panelni (Sidebar) moslashtirish */
     [data-testid="stSidebar"] {
-        background: rgba(4, 9, 20, 0.8) !important;
-        backdrop-filter: blur(25px);
-        border-right: 1px solid rgba(212, 175, 55, 0.25); /* Tilla rang hoshiya */
+        background: rgba(4, 7, 13, 0.85) !important;
+        backdrop-filter: blur(15px);
+        border-right: 1px solid rgba(212, 175, 55, 0.15); /* Yengil tilla hoshiya */
     }
 
+    /* Asosiy bloklar (Konteynerlar) */
     div[data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(10, 18, 35, 0.65) !important;
-        backdrop-filter: blur(20px) saturate(200%) !important;
+        background: rgba(12, 18, 30, 0.6) !important;
+        backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
-        border: 1px solid rgba(212, 175, 55, 0.35) !important;
-        border-radius: 20px !important;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.1) !important;
+        border: 1px solid rgba(212, 175, 55, 0.25) !important; /* Tilla rang hoshiya */
+        border-radius: 16px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.05) !important;
         transition: all 0.4s ease !important;
-        z-index: 10;
         position: relative;
+        z-index: 10;
     }
 
-    /* Sichqoncha olib kelinganda blok tilla rangda chaqnaydi */
+    /* Konteyner ustiga sichqoncha borganda */
     div[data-testid="stVerticalBlockBorderWrapper"]:hover {
-        border-color: rgba(212, 175, 55, 0.9) !important;
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.3), inset 0 0 25px rgba(212, 175, 55, 0.2) !important;
-        transform: translateY(-5px);
+        border-color: rgba(212, 175, 55, 0.7) !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(212, 175, 55, 0.15) !important;
+        transform: translateY(-4px);
     }
 
-    /* Sarlavhalarga tilla rang (Gold) berish */
-    h1, h2, h3, h4 { color: #d4af37 !important; text-shadow: 0 3px 6px rgba(0,0,0,0.8); }
-    label, span, p { color: #e2e8f0 !important; }
+    /* Matnlar va Sarlavhalarni Premium Oltin rangga o'tkazish */
+    h1, h2, h3, h4 { color: #d4af37 !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8); letter-spacing: 0.5px; }
+    label, span, p, .stMarkdown { color: #e2e8f0 !important; }
 
-    /* Tugmalar Dizayni - Yashil va Tilla rang uyg'unligi */
+    /* Checkbox (tasdiq belgilari) dizayni */
+    div[data-baseweb="checkbox"] > div {
+        background-color: transparent !important;
+    }
+
+    /* Oltin Tugmalar Dizayni */
     .stButton>button, .stDownloadButton>button {
-        background: linear-gradient(135deg, #0a3622 0%, #115c3a 100%) !important;
-        color: #d4af37 !important;
-        font-weight: bold !important;
-        border-radius: 12px !important;
-        border: 1px solid #d4af37 !important;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5) !important;
+        background: linear-gradient(135deg, #8a7322 0%, #d4af37 50%, #8a7322 100%) !important;
+        color: #04070d !important; /* To'q fon uchun qora matn */
+        font-weight: 800 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 8px !important;
+        border: 1px solid #ffdf73 !important;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
         transition: all 0.3s ease !important;
     }
+    
     .stButton>button:hover, .stDownloadButton>button:hover {
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.6) !important;
+        background: linear-gradient(135deg, #ffd700 0%, #ffea70 50%, #ffd700 100%) !important;
+        box-shadow: 0 6px 25px rgba(212, 175, 55, 0.6) !important;
         transform: translateY(-2px) scale(1.02);
-        color: #fff !important;
     }
     </style>
 
-    <!-- HTML Elementlar (Animatsiya qilinadigan 12 ta pasport) -->
-    <div class="passport-area">
-        <div class="pass-item p1"></div>
-        <div class="pass-item p2"></div>
-        <div class="pass-item p3"></div>
-        <div class="pass-item p4"></div>
-        <div class="pass-item p5"></div>
-        <div class="pass-item p6"></div>
-        <div class="pass-item p7"></div>
-        <div class="pass-item p8"></div>
-        <div class="pass-item p9"></div>
-        <div class="pass-item p10"></div>
-        <div class="pass-item p11"></div>
-        <div class="pass-item p12"></div>
+    <!-- Gologramma elementlari -->
+    <div class="hologram-container">
+        <div class="holo-symbol holo-scales">⚖️</div>
+        <div class="holo-symbol holo-building">🏛️</div>
+        <div class="holo-symbol holo-paragraph">§</div>
     </div>
 """, unsafe_allow_html=True)
 
