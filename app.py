@@ -103,13 +103,15 @@ else:
 st.write("---")
 st.subheader("📄 Natijani saqlash")
 
+child_status = "Ha" if with_child else "Yo'q"
+
 report_text = f"""
 ==================================================
 FUQAROLIK HUJJATLARI TEKSHIRUV MANTIG'I (38-MODDA)
 Sana: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}
 --------------------------------------------------
 Tanlangan tartib: {procedure}
-Yosh bola kiritilganmi: {'Ha' if with_child else 'Yo'q'}
+Yosh bola kiritilganmi: {child_status}
 
 [TAYYOR HUJJATLAR ({len(completed_docs)}/{total})]:
 """ + "\n".join([f"- {doc}" for doc in completed_docs]) + f"""
